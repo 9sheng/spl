@@ -1,8 +1,8 @@
 ## spl
 
-my handy c++ toolkit
+收集来的 C++ 工具库集，一般情况下，里面的类都可以单独使用，即只拷贝头文件放到你的工程中即可。
 
-### setup on ubuntu
+### set up on ubuntu
 ```
 # 0. 安装 cmake gtest
 sudo apt-get install cmake libgtest-dev
