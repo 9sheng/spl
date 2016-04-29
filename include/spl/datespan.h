@@ -91,7 +91,7 @@ std::string DateSpan::GetPeriodStr() const {
 }
 
 std::string DateSpan::ToString() const {
-  return from_date_.GetDateStr() + "|" + to_date_.GetDateStr() + "|" + GetPeriodStr();
+  return from_date_.GetDateString() + "|" + to_date_.GetDateString() + "|" + GetPeriodStr();
 }
 
 bool DateSpan::IsWeekdaySet(char period, int day) {

@@ -23,13 +23,13 @@ inline void Split(std::vector<std::string>* result,
   }
 }
 
-inline std::string ToStr(int64_t n) {
+inline std::string ToString(int64_t n) {
   char buf[64];
   snprintf(buf, sizeof(buf), "%" PRId64, n);
   return std::string(buf);
 }
 
-inline time_t Str2Timestamp(const std::string& str) {
+inline time_t String2Timestamp(const std::string& str) {
   // If we don't initialize ptm, ptm.tm_isdst will be a random value.
   // `mktime` will take take much more time than expected.
   struct tm ptm = {0};
@@ -39,7 +39,7 @@ inline time_t Str2Timestamp(const std::string& str) {
   return -1;
 }
 
-inline std::string Timestamp2Str(time_t ts) {
+inline std::string Timestamp2String(time_t ts) {
   struct tm ptm = {0};
   char buf[32];
   strftime(buf, sizeof(buf), (char*)"%Y-%m-%d %H:%M:%S", localtime_r(&ts, &ptm));

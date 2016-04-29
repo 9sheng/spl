@@ -49,7 +49,7 @@ public:
     return *this;
   }
 
-  std::string GetDateStr() const {
+  std::string GetDateString() const {
     if (ts_ == -1) {
       return "0000-00-00";
     }
