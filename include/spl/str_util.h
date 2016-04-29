@@ -5,7 +5,7 @@
 #include <inttypes.h>
 #include <time.h>
 
-// namespace spl {
+namespace spl {
 
 inline void Split(std::vector<std::string>* result,
                   const std::string& s,
