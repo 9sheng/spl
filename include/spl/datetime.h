@@ -9,12 +9,14 @@ namespace spl {
 
 class DateTime {
 public:
-  explicit DateTime(const std::string& d, const std::string& t = "00:00:00") : ts_(-1) {
+  explicit DateTime(const std::string& d, const std::string& t = "00:00:00")
+    : ts_(-1) {
     char buf[32];
     snprintf(buf, sizeof(buf), "%s %s", d.c_str(), t.c_str());
 
-    if (strptime(buf, (char*)"%Y-%m-%d %H:%M:%S", &tm_) != NULL) {
-      ts_ = mktime(&tm_);
+    struct tm ptm;
+    if (strptime(buf, (char*)"%Y-%m-%d %H:%M:%S", &ptm) != NULL) {
+      ts_ = mktime(&ptm);
     }
   }
 
@@ -33,7 +35,9 @@ public:
   }
 
   int GetWeekday() const {
-    return tm_.tm_wday;
+    struct tm ptm;
+    localtime_r(&ts_, &ptm);
+    return ptm.tm_wday;
   }
 
   int GetDiffDayNum(const DateTime& rhs) const {
@@ -42,7 +46,6 @@ public:
 
   DateTime& AddDay(int n) {
     ts_ += n * DAY_SECONDS;
-    localtime_r(&ts_, &tm_);
     return *this;
   }
 
@@ -51,8 +54,11 @@ public:
       return "0000-00-00";
     }
 
+    struct tm ptm;
+    localtime_r(&ts_, &ptm);
+
     char buf[32];
-    strftime(buf, sizeof(buf), (char*)"%Y-%m-%d", &tm_);
+    strftime(buf, sizeof(buf), (char*)"%Y-%m-%d", &ptm);
     return buf;
   }
 
@@ -63,7 +69,6 @@ public:
 
 private:
   time_t ts_;
-  struct tm tm_;
 };
 
 } // namespace spl
