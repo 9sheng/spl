@@ -9,7 +9,7 @@ namespace spl {
 
 struct DateTimeCompare {
   bool operator()(const DateTime* first, const DateTime* second) {
-    return (*first) < (*second);
+    return *first < *second;
   }
 };
 
@@ -71,38 +71,38 @@ DateSpan DateSpan::Intersect(const DateSpan& rhs) const {
 
 void DateSpan::Substitute(const std::vector<DateSpan>& in,
                           std::vector<DateSpan>* out) const {
-  (*out).push_back(*this);
+  out->push_back(*this);
 
   for (auto in_iter = in.begin(); in_iter != in.end(); ++in_iter) {
     //  +++ 代表的日期段是我们想要的
     // 两段日期没有交集
     // *in_iter  ++++++++
-    // (*this)               --------
+    // *this               --------
     if (in_iter->to_date() < this->from_date() ||
         this->to_date() < in_iter->from_date()) {
-      (*out).push_back(*in_iter);
+      out->push_back(*in_iter);
     } else {
       // 有交集，取左边部分
       // *in_iter ++++++-------
-      // (*this)        -------------
+      // *this          -------------
       if (in_iter->from_date() < this->from_date() &&
           this->from_date() < in_iter->to_date()) {
-        DateTime to_date((*this).from_date());
+        DateTime to_date(this->from_date());
         to_date.AddDay(-1);
-        (*out).push_back(DateSpan(in_iter->from_date(),
-                                  to_date,
-                                  in_iter->period()));
+        out->push_back(DateSpan(in_iter->from_date(),
+                                to_date,
+                                in_iter->period()));
       }
       // 有交集，取右边部分
       // *in_iter          -----+++++++
-      // (*this)   -------------
+      // *this     -------------
       if (in_iter->from_date() < this->to_date() &&
           this->to_date() < in_iter->to_date()) {
-        DateTime from_date((*this).to_date());
+        DateTime from_date(this->to_date());
         from_date.AddDay(1);
-        (*out).push_back(DateSpan(from_date,
-                                  in_iter->to_date(),
-                                  in_iter->period()));
+        out->push_back(DateSpan(from_date,
+                                in_iter->to_date(),
+                                in_iter->period()));
       }
     }
   }
@@ -112,7 +112,7 @@ void DateSpan::Merge(const std::vector<DateSpan>& in,
                      std::vector<DateSpan>* out) {
   typedef std::map<const DateTime*, int, DateTimeCompare> DatePoints;
 
-  std::vector<DateSpan> tmpOut;
+  std::vector<DateSpan> tmp_out;
 
   static const int FROM_DATE = 0x1;
   static const int TO_DATE   = 0x2;
@@ -155,8 +155,8 @@ void DateSpan::Merge(const std::vector<DateSpan>& in,
     DateSpan current(curr_from_date, curr_to_date, curr_period);
 
     bool need_pushed = true;
-    if (tmpOut.size() > 0) {
-      DateSpan& last = tmpOut[tmpOut.size()-1];
+    if (tmp_out.size() > 0) {
+      DateSpan& last = tmp_out.back();
       if (CanBeMerged(last, current)) {
         last.set_to_date(current.to_date());
         last.set_period(last.period() | current.period());
@@ -164,13 +164,14 @@ void DateSpan::Merge(const std::vector<DateSpan>& in,
       }
     }
     if (need_pushed) {
-      tmpOut.push_back(current);
+      tmp_out.push_back(current);
     }
   }
 
-  for (auto iter = tmpOut.begin(); iter != tmpOut.end(); ++iter) {
-    if ((*iter).Normalize().ToString() != "0000-00-00|0000-00-00|")
-      (*out).push_back(*iter);
+  for (auto iter = tmp_out.begin(); iter != tmp_out.end(); ++iter) {
+    if (!iter->Empty()) {
+      out->push_back(iter->Normalize());
+    }
   }
 }
 
@@ -233,8 +234,9 @@ DateSpan& DateSpan::Normalize() {
   wday = from_date_.GetWeekday();
   day_shift = 0;
   while (true) {
-    if (IsWeekdaySet(period_, wday))
+    if (IsWeekdaySet(period_, wday)) {
       break;
+    }
     IncWeekday(&wday);
     day_shift++;
   }

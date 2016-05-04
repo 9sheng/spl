@@ -25,6 +25,7 @@ public:
 
   inline std::string GetPeriodStr() const;
   inline std::string ToString() const;
+  inline bool Empty() const;
 
   DateSpan& Normalize();
   DateSpan& ShiftDays(int day_num);
@@ -101,6 +102,10 @@ bool DateSpan::IsWeekdaySet(char period, int day) {
 
 void DateSpan::IncWeekday(int* day) {
   *day = *day == 6 ? 0 : *day + 1;
+}
+
+bool DateSpan::Empty() const {
+  return !HasEffectiveDay(from_date_, to_date_, period_);
 }
 
 } // namespace spl
