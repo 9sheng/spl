@@ -10,11 +10,11 @@ namespace spl {
 class DateTime {
 public:
   explicit DateTime(const std::string& d, const std::string& t = "00:00:00")
-    : ts_(-1) {
+      : ts_(-1) {
     char buf[32];
     snprintf(buf, sizeof(buf), "%s %s", d.c_str(), t.c_str());
 
-    struct tm ptm;
+    struct tm ptm = {0};
     if (strptime(buf, (char*)"%Y-%m-%d %H:%M:%S", &ptm) != NULL) {
       ts_ = mktime(&ptm);
     }
@@ -54,7 +54,7 @@ public:
       return "0000-00-00";
     }
 
-    struct tm ptm;
+    struct tm ptm = {0};
     localtime_r(&ts_, &ptm);
 
     char buf[32];

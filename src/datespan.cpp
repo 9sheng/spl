@@ -16,14 +16,14 @@ struct DateTimeCompare {
 DateSpan::DateSpan(const std::string& from_date,
                    const std::string& to_date,
                    const std::string& period)
-  : from_date_(from_date), to_date_(to_date) {
+    : from_date_(from_date), to_date_(to_date) {
   period_ = PeriodStrToByte(period);
 }
 
 DateSpan::DateSpan(const DateTime& from_date,
                    const DateTime& to_date,
                    char period)
-  : from_date_(from_date), to_date_(to_date), period_(period) {
+    : from_date_(from_date), to_date_(to_date), period_(period) {
 }
 
 DateSpan::~DateSpan() {
@@ -191,10 +191,14 @@ bool DateSpan::CanBeMerged(const DateSpan& first, const DateSpan& second) {
 bool DateSpan::HasEffectiveDay(const DateTime& from,
                                const DateTime& to,
                                char period) {
-  if (period  == 0) return false;
+  if (period  == 0) {
+    return false;
+  }
 
   int day_num = to.GetDiffDayNum(from);
-  if (day_num > 6) return true;
+  if (day_num > 6) {
+    return true;
+  }
 
   int wday = from.GetWeekday();
   for (int i = 0; i < day_num; i++) {
