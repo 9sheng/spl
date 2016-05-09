@@ -2,6 +2,7 @@
 
 #include <string>
 #include <time.h>
+#include <string.h>
 
 #define DAY_SECONDS (24 * 60 * 60)
 
@@ -14,7 +15,8 @@ public:
     char buf[32];
     snprintf(buf, sizeof(buf), "%s %s", d.c_str(), t.c_str());
 
-    struct tm ptm = {0};
+    struct tm ptm;
+    bzero(&ptm, sizeof(ptm));
     if (strptime(buf, (char*)"%Y-%m-%d %H:%M:%S", &ptm) != NULL) {
       ts_ = mktime(&ptm);
     }
@@ -36,6 +38,7 @@ public:
 
   int GetWeekday() const {
     struct tm ptm;
+    bzero(&ptm, sizeof(ptm));
     localtime_r(&ts_, &ptm);
     return ptm.tm_wday;
   }
@@ -54,7 +57,8 @@ public:
       return "0000-00-00";
     }
 
-    struct tm ptm = {0};
+    struct tm ptm;
+    bzero(&ptm, sizeof(ptm));
     localtime_r(&ts_, &ptm);
 
     char buf[32];

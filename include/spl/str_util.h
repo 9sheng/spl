@@ -4,6 +4,7 @@
 #include <vector>
 #include <inttypes.h>
 #include <time.h>
+#include <string.h>
 
 namespace spl {
 
@@ -32,7 +33,8 @@ inline std::string ToString(int64_t n) {
 inline time_t String2Timestamp(const std::string& str) {
   // If we don't initialize ptm, ptm.tm_isdst will be a random value.
   // `mktime` will take take much more time than expected.
-  struct tm ptm = {0};
+  struct tm ptm;
+  bzero(&ptm, sizeof(ptm));
   if (strptime(str.c_str(), (char*)"%Y-%m-%d %H:%M:%S", &ptm) != NULL) {
     return mktime(&ptm);
   }
@@ -40,7 +42,8 @@ inline time_t String2Timestamp(const std::string& str) {
 }
 
 inline std::string Timestamp2String(time_t ts) {
-  struct tm ptm = {0};
+  struct tm ptm;
+  bzero(&ptm, sizeof(ptm));
   char buf[32];
   strftime(buf, sizeof(buf), (char*)"%Y-%m-%d %H:%M:%S", localtime_r(&ts, &ptm));
   return std::string(buf);
