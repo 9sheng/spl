@@ -8,7 +8,8 @@
 namespace spl {
 
 struct DateTimeCompare {
-  bool operator()(const DateTime* first, const DateTime* second) {
+  bool operator()(const DateTime* first, const DateTime* second)
+  {
     return *first < *second;
   }
 };
@@ -16,20 +17,24 @@ struct DateTimeCompare {
 DateSpan::DateSpan(const std::string& from_date,
                    const std::string& to_date,
                    const std::string& period)
-    : from_date_(from_date), to_date_(to_date) {
+    : from_date_(from_date), to_date_(to_date)
+{
   period_ = PeriodStrToByte(period);
 }
 
 DateSpan::DateSpan(const DateTime& from_date,
                    const DateTime& to_date,
                    char period)
-    : from_date_(from_date), to_date_(to_date), period_(period) {
+    : from_date_(from_date), to_date_(to_date), period_(period)
+{
 }
 
-DateSpan::~DateSpan() {
+DateSpan::~DateSpan()
+{
 }
 
-std::string DateSpan::PeriodByteToStr(char period) {
+std::string DateSpan::PeriodByteToStr(char period)
+{
   std::string str_period = "";
   char buf[4];
 
@@ -42,7 +47,8 @@ std::string DateSpan::PeriodByteToStr(char period) {
   return str_period;
 }
 
-char DateSpan::PeriodStrToByte(const std::string& period) {
+char DateSpan::PeriodStrToByte(const std::string& period)
+{
   char p = 0;
   for (size_t i = 0; i < period.size(); ++i) {
     p |= (1 << ((period[i]-'0') % 7));
@@ -50,7 +56,8 @@ char DateSpan::PeriodStrToByte(const std::string& period) {
   return p;
 }
 
-DateSpan DateSpan::Intersect(const DateSpan& rhs) const {
+DateSpan DateSpan::Intersect(const DateSpan& rhs) const
+{
   char new_period = period_ & rhs.period_;
   if (new_period == 0 ||
       to_date_ < rhs.from_date_ ||
@@ -70,7 +77,8 @@ DateSpan DateSpan::Intersect(const DateSpan& rhs) const {
 }
 
 void DateSpan::Substitute(const std::vector<DateSpan>& in,
-                          std::vector<DateSpan>* out) const {
+                          std::vector<DateSpan>* out) const
+{
   out->push_back(*this);
 
   for (auto in_iter = in.begin(); in_iter != in.end(); ++in_iter) {
@@ -109,7 +117,8 @@ void DateSpan::Substitute(const std::vector<DateSpan>& in,
 }
 
 void DateSpan::Merge(const std::vector<DateSpan>& in,
-                     std::vector<DateSpan>* out) {
+                     std::vector<DateSpan>* out)
+{
   typedef std::map<const DateTime*, int, DateTimeCompare> DatePoints;
 
   std::vector<DateSpan> tmp_out;
@@ -175,7 +184,8 @@ void DateSpan::Merge(const std::vector<DateSpan>& in,
   }
 }
 
-bool DateSpan::CanBeMerged(const DateSpan& first, const DateSpan& second) {
+bool DateSpan::CanBeMerged(const DateSpan& first, const DateSpan& second)
+{
   char p1 = first.period();
   char p2 = second.period();
   char same = p1 & p2;
@@ -190,7 +200,8 @@ bool DateSpan::CanBeMerged(const DateSpan& first, const DateSpan& second) {
 
 bool DateSpan::HasEffectiveDay(const DateTime& from,
                                const DateTime& to,
-                               char period) {
+                               char period)
+{
   if (period  == 0) {
     return false;
   }
@@ -211,7 +222,8 @@ bool DateSpan::HasEffectiveDay(const DateTime& from,
   return false;
 }
 
-DateSpan& DateSpan::Normalize() {
+DateSpan& DateSpan::Normalize()
+{
   if (period_ == 0) {
     from_date_ = DateTime::Null();
     to_date_ = DateTime::Null();
@@ -273,7 +285,8 @@ DateSpan& DateSpan::Normalize() {
   return *this;
 }
 
-DateSpan& DateSpan::ShiftDays(int day_num) {
+DateSpan& DateSpan::ShiftDays(int day_num)
+{
   if (day_num != 0) {
     from_date_.AddDay(day_num);
     to_date_.AddDay(day_num);

@@ -24,7 +24,8 @@ namespace spl {
 template<typename T>
 class Singleton {
 public:
-  static T* Instance() {
+  static T* Instance()
+  {
     pthread_once(&ponce_, &Singleton::Init);
     return value_;
   }
@@ -34,12 +35,14 @@ protected:
   ~Singleton() {}
 
 private:
-  static void Init() {
+  static void Init()
+  {
     value_ = new T();
     ::atexit(Destroy);
   }
 
-  static void Destroy() {
+  static void Destroy()
+  {
     typedef char T_must_be_complete_type[sizeof(T) == 0 ? -1 : 1];
     delete value_;
   }

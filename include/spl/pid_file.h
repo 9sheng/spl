@@ -10,16 +10,19 @@ namespace spl {
 class PidFile {
 public:
   PidFile(const char* pid_file_path)
-    : pid_file_path_(pid_file_path),
-      is_locked_(false) {
+      : pid_file_path_(pid_file_path),
+        is_locked_(false)
+  {
   }
   ~PidFile() {}
 
-  std::string ErrorInfo() {
+  std::string ErrorInfo()
+  {
     return error_info_;
   }
 
-  bool Lock() {
+  bool Lock()
+  {
     int fd = open(pid_file_path_.c_str(),
                   O_WRONLY | O_CREAT,
                   S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
@@ -73,7 +76,8 @@ public:
     return true;
   }
 
-  void Release() {
+  void Release()
+  {
     if (!is_locked_) {
       return;
     }

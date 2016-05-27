@@ -9,7 +9,8 @@ public:
   SimpleThread() {}
   virtual ~SimpleThread() {}
 
-  bool Start() {
+  bool Start()
+  {
     int ret = pthread_create(&thread_, NULL, RunMethod, static_cast<void*>(this));
     if (ret != 0) {
       thread_ = 0;
@@ -19,7 +20,8 @@ public:
     return true;
   }
 
-  bool Join() {
+  bool Join()
+  {
     void* result = NULL;
     int ret = pthread_join(thread_, &result);
     if (ret != 0) {
@@ -37,7 +39,8 @@ private:
   SimpleThread(const SimpleThread&);
   SimpleThread& operator=(const SimpleThread&);
 
-  static void* RunMethod(void* ptr) {
+  static void* RunMethod(void* ptr)
+  {
     SimpleThread* thisObject = reinterpret_cast<SimpleThread*>(ptr);
     return thisObject->Run();
   }

@@ -51,60 +51,74 @@ protected:
   char period_;
 };
 
-const DateTime& DateSpan::from_date() const {
+const DateTime& DateSpan::from_date() const
+{
   return from_date_;
 }
 
-void DateSpan::set_from_date(const DateTime& rhs) {
+void DateSpan::set_from_date(const DateTime& rhs)
+{
   from_date_ = rhs;
 }
 
-void DateSpan::set_from_date(const std::string& rhs) {
+void DateSpan::set_from_date(const std::string& rhs)
+{
   from_date_ = DateTime(rhs);
 }
 
-const DateTime& DateSpan::to_date() const {
+const DateTime& DateSpan::to_date() const
+{
   return to_date_;
 }
 
-void DateSpan::set_to_date(const DateTime& rhs) {
+void DateSpan::set_to_date(const DateTime& rhs)
+{
   to_date_ = rhs;
 }
 
-void DateSpan::set_to_date(const std::string& rhs) {
+void DateSpan::set_to_date(const std::string& rhs)
+{
   to_date_ = DateTime(rhs);
 }
 
-char DateSpan::period() const {
+char DateSpan::period() const
+{
   return period_;
 }
 
-void DateSpan::set_period(char rhs) {
+void DateSpan::set_period(char rhs)
+{
   period_ = rhs;
 }
 
-void DateSpan::set_period(const std::string& rhs) {
+void DateSpan::set_period(const std::string& rhs)
+{
   period_ = PeriodStrToByte(rhs);
 }
 
-std::string DateSpan::GetPeriodStr() const {
+std::string DateSpan::GetPeriodStr() const
+{
   return PeriodByteToStr(period_);
 }
 
-std::string DateSpan::ToString() const {
+std::string DateSpan::ToString() const
+{
   return from_date_.GetDateString() + "|" + to_date_.GetDateString() + "|" + GetPeriodStr();
 }
 
-bool DateSpan::IsWeekdaySet(char period, int day) {
+bool DateSpan::IsWeekdaySet(char period, int day)
+{
   char flag = 1 << ( day % 7);
   return (flag & period) != 0;
 }
 
-void DateSpan::IncWeekday(int* day) {
+void DateSpan::IncWeekday(int* day)
+{
   *day = *day == 6 ? 0 : *day + 1;
 }
 
-bool DateSpan::Empty() const {
+bool DateSpan::Empty() const
+{
   return !HasEffectiveDay(from_date_, to_date_, period_);
 }
 

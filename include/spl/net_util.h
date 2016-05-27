@@ -4,7 +4,8 @@
 
 namespace spl {
 
-int GetIpString(const std::string& name, std::string* ip) {
+int GetIpString(const std::string& name, std::string* ip)
+{
   struct ifaddrs *ifaddr;
 
   if (getifaddrs(&ifaddr) == -1) {
