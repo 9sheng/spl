@@ -7,10 +7,10 @@
  * usage:
  * '''
  * class FooBar : public spl::Singleton<FooBar> {
- * public:
+ *  public:
  *   void DoSomething();
  *
- * private:
+ *  private:
  *   FooBar() {}
  *   ~FooBar() {}
  *
@@ -23,18 +23,18 @@ namespace spl {
 
 template<typename T>
 class Singleton {
-public:
+ public:
   static T* Instance()
   {
     pthread_once(&ponce_, &Singleton::Init);
     return value_;
   }
 
-protected:
+ protected:
   Singleton() {}
   ~Singleton() {}
 
-private:
+ private:
   static void Init()
   {
     value_ = new T();
@@ -47,12 +47,12 @@ private:
     delete value_;
   }
 
-private:
+ private:
   // disallow copy constructor and assignment operator
   Singleton(const Singleton&);
   Singleton& operator=(const Singleton&);
 
-private:
+ private:
   static pthread_once_t ponce_;
   static T*             value_;
 };

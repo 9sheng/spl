@@ -5,7 +5,7 @@
 namespace spl {
 
 class SimpleThread {
-public:
+ public:
   SimpleThread() {}
   virtual ~SimpleThread() {}
 
@@ -32,10 +32,10 @@ public:
     return true;
   }
 
-protected:
+ protected:
   virtual void* Run() = 0;
 
-private:
+ private:
   SimpleThread(const SimpleThread&);
   SimpleThread& operator=(const SimpleThread&);
 
@@ -45,7 +45,7 @@ private:
     return thisObject->Run();
   }
 
-private:
+ private:
   pthread_t thread_;
 };
 

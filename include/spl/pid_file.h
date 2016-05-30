@@ -8,7 +8,7 @@
 namespace spl {
 
 class PidFile {
-public:
+ public:
   PidFile(const char* pid_file_path)
       : pid_file_path_(pid_file_path),
         is_locked_(false)
@@ -89,11 +89,11 @@ public:
     }
   }
 
-private:
+ private:
   PidFile(const PidFile& rhs);
   PidFile& operator=(const PidFile& rhs) const;
 
-private:
+ private:
   std::string pid_file_path_;
   bool is_locked_;
   std::string error_info_;

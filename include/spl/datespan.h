@@ -6,7 +6,7 @@
 namespace spl {
 
 class DateSpan {
-public:
+ public:
   DateSpan(const std::string& from_date, const std::string& to_date, const std::string& period);
   DateSpan(const DateTime& from_date, const DateTime& to_date, char period);
   ~DateSpan();
@@ -34,7 +34,7 @@ public:
 
   static void Merge(const std::vector<DateSpan>& in, std::vector<DateSpan>* out);
 
-protected:
+ protected:
   static std::string PeriodByteToStr(char period);
   static char PeriodStrToByte(const std::string& period);
   static bool CanBeMerged(const DateSpan& first, const DateSpan& second);
@@ -42,7 +42,7 @@ protected:
   static inline bool IsWeekdaySet(char period, int day);
   static inline void IncWeekday(int* day);
 
-protected:
+ protected:
   // 日期区间为：[from_date_, to_date_)
   // 周期位： 0:SUN, 1:MON, 2:TUS, 3:WED, 4:THU, 5:FRI, 6:SAT
   // 如果 from_date >= to_date_，则没有有效日期

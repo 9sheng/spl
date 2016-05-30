@@ -194,8 +194,8 @@ bool DateSpan::CanBeMerged(const DateSpan& first, const DateSpan& second)
   char pboth = p1 | p2;
 
   return !HasEffectiveDay(first.from_date(), first.to_date(), p2only) &&
-    !HasEffectiveDay(second.from_date(), second.to_date(), p1only) &&
-    !HasEffectiveDay(first.to_date(), second.from_date(), pboth);
+      !HasEffectiveDay(second.from_date(), second.to_date(), p1only) &&
+      !HasEffectiveDay(first.to_date(), second.from_date(), pboth);
 }
 
 bool DateSpan::HasEffectiveDay(const DateTime& from,

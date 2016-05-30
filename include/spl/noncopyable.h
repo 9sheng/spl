@@ -3,8 +3,8 @@
 /**
  * Usage:
  * Class FooBar : private spl::Noncopyable {
- * public:
-     FooBar() {}
+ *  public:
+ *   FooBar() {}
  * };
  */
 

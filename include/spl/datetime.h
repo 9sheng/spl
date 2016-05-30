@@ -9,7 +9,7 @@
 namespace spl {
 
 class DateTime {
-public:
+ public:
   explicit DateTime(const std::string& d, const std::string& t = "00:00:00")
       : ts_(-1)
   {
@@ -80,7 +80,7 @@ public:
     return null_day;
   }
 
-private:
+ private:
   time_t ts_;
 };
 
