@@ -66,7 +66,7 @@ inline std::string ToString(int64_t n)
 }
 
 inline time_t String2Timestamp(const std::string& str,
-                               const char* format = "%Y-%m-%d %H:%M:%S")
+                               const char* format = "%F %T")
 {
   // If we don't initialize ptm, ptm.tm_isdst will be a random value.
   // `mktime` will take take much more time than expected.
@@ -79,7 +79,7 @@ inline time_t String2Timestamp(const std::string& str,
 }
 
 inline std::string Timestamp2String(time_t ts,
-                                    const char* format = "%Y-%m-%d %H:%M:%S")
+                                    const char* format = "%F %T")
 {
   struct tm ptm;
   bzero(&ptm, sizeof(ptm));

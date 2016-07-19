@@ -18,7 +18,7 @@ class DateTime {
 
     struct tm ptm;
     bzero(&ptm, sizeof(ptm));
-    if (strptime(buf, (char*)"%Y-%m-%d %H:%M:%S", &ptm) != NULL) {
+    if (strptime(buf, (char*)"%F %T", &ptm) != NULL) {
       ts_ = mktime(&ptm);
     }
   }
@@ -70,7 +70,7 @@ class DateTime {
     localtime_r(&ts_, &ptm);
 
     char buf[32];
-    strftime(buf, sizeof(buf), (char*)"%Y-%m-%d", &ptm);
+    strftime(buf, sizeof(buf), (char*)"%F", &ptm);
     return buf;
   }
 
