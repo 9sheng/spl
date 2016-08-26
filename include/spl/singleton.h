@@ -1,7 +1,6 @@
 #pragma once
 
 #include <pthread.h>
-#include <stdlib.h>   // atexit
 
 /**
  * usage:
@@ -30,6 +29,12 @@ class Singleton {
     return value_;
   }
 
+  static void Destroy()
+  {
+    typedef char T_must_be_complete_type[sizeof(T) == 0 ? -1 : 1];
+    delete value_;
+  }
+
  protected:
   Singleton() {}
   ~Singleton() {}
@@ -38,13 +43,6 @@ class Singleton {
   static void Init()
   {
     value_ = new T();
-    ::atexit(Destroy);
-  }
-
-  static void Destroy()
-  {
-    typedef char T_must_be_complete_type[sizeof(T) == 0 ? -1 : 1];
-    delete value_;
   }
 
  private:
